@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 10px auto;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: block;
+        }
+        button, form input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button, form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .add, button {
+            display: block;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Products</h1>
+    <button id="toggleButton">Show filters</button><br>
+    <a class="add" th:href="@{/products/create}">Add product</a>
+    <form style="display: none;" action="#" th:action="@{/products/search}" th:object="${searchParams}" method="get">
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name">
+
+        <label for="maker">Maker:</label>
+        <input type="text" th:field="*{maker}" id="maker">
+
+        <label for="capacityInGb">Capacity (GB):</label>
+        <input type="number" th:field="*{capacityInGb}" id="capacityInGb">
+
+        <label for="formFactor">Form Factor:</label>
+        <select th:field="*{formFactor}" id="formFactor">
+            <option value="">--- not selected ---</option>
+            <option th:each="formFactor : ${formFactors}" th:value="${formFactor}" th:text="${formFactor}"></option>
+        </select>
+
+        <label for="minReadingSpeed">Minimum Reading Speed:</label>
+        <input type="number" th:field="*{minReadingSpeed}" id="minReadingSpeed">
+
+        <label for="maxReadingSpeed">Maximum Reading Speed:</label>
+        <input type="number" th:field="*{maxReadingSpeed}" id="maxReadingSpeed">
+
+        <label for="minWritingSpeed">Minimum Writing Speed:</label>
+        <input type="number" th:field="*{minWritingSpeed}" id="minWritingSpeed">
+
+        <label for="maxWritingSpeed">Maximum Writing Speed:</label>
+        <input type="number" th:field="*{maxWritingSpeed}" id="maxWritingSpeed">
+
+        <label for="sortParams">Sort params:</label>
+        <select th:field="*{sortParams}" id="sortParams">
+            <option value="">--- not selected ---</option>
+            <option th:each="sortParams : ${sortParams}" th:value="${sortParams}" th:text="${sortParams}"></option>
+        </select>
+
+        <label for="asc">Ascending:</label>
+        <input type="checkbox" th:field="*{asc}" id="asc">
+
+        <input type="submit" value="Apply Filter">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Maker</th>
+                <th>Capacity (GB)</th>
+                <th>Form Factor</th>
+                <th>Reading Speed</th>
+                <th>Writing Speed</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.maker}"></td>
+                    <td th:text="${product.capacityInGb}"></td>
+                    <td th:text="${product.formFactor}"></td>
+                    <td th:text="${product.readingSpeed}"></td>
+                    <td th:text="${product.writingSpeed}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td>
+                        <a th:href="@{/products/update/{id}(id=${product.id})}">Edit</a><br>
+                        <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toggleButton = document.getElementById("toggleButton");
+        var filterForm = document.getElementsByTagName("form")[0];
+
+        toggleButton.addEventListener('click', function() {
+            if (filterForm.style.display === 'none') {
+                filterForm.style.display = 'block';
+                toggleButton.textContent = 'Hide filters';
+            } else {
+                filterForm.style.display = 'none';
+                toggleButton.textContent = 'Show filters';
+            }
+        });
+    });
+</script>

@@ -1,0 +1,15 @@
+create database [SsdShop];
+go
+
+use [SsdShop];
+create table [Products] (
+	[Id] bigint not null constraint [PK_Products] primary key,
+	[Name] nvarchar(250) not null,
+	[Maker] nvarchar(250) not null,
+	[CapacityInGb] int not null,
+	[FormFactor] int not null,
+	[ReadingSpeed] int not null,
+	[WritingSpeed] int not null,
+	[Price] int not null
+);
+go

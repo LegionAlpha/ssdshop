@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: block;
+        }
+        form input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Product</h1>
+    <form action="#" th:action="@{/products/update}" th:object="${product}" method="post">
+        <input type="hidden" readonly th:field="*{id}">
+
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name">
+
+        <label for="maker">Maker:</label>
+        <input type="text" th:field="*{maker}" id="maker">
+
+        <label for="capacityInGb">Capacity (GB):</label>
+        <input type="number" th:field="*{capacityInGb}" id="capacityInGb">
+
+        <label for="formFactor">Form Factor:</label>
+        <select id="formFactor" th:field="*{formFactor}">
+            <option th:each="formFactor : ${formFactors}" th:value="${formFactor}" th:text="${formFactor}"></option>
+        </select>
+
+        <label for="readingSpeed">Reading Speed:</label>
+        <input type="number" th:field="*{readingSpeed}" id="readingSpeed">
+
+        <label for="writingSpeed">Writing Speed:</label>
+        <input type="number" th:field="*{writingSpeed}" id="writingSpeed">
+
+        <label for="price">Price:</label>
+        <input type="number" th:field="*{price}" id="price">
+
+        <input type="submit" value="Update Product">
+    </form>
+</body>
+</html>
